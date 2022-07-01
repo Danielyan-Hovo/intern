@@ -1,0 +1,6 @@
+Gold:  3.0 13.0 0.09631107491856677 0 0.0 20.0 none {}
+Values:  3.0 13.0 0.09631107491856677 0 0.0 20.0 false
+Exercises 7 is wrong
+
+Test passed Succesfully!
+Tests Result:  90 %

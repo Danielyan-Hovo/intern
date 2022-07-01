@@ -16,11 +16,16 @@ int main(){
 	std::ofstream exitfile;
 	exitfile.open("exitLinear.txt");
 	float a,b;
-	while(infile>>a>>b){
-		exitfile<<linear(a,b)<<std::endl;
+	if(!infile){
+		exitfile<<"ERROR from inputLinear.txt file"<<std::endl;
+	}
+	else{
+		while(infile>>a>>b){
+			exitfile<<linear(a,b)<<std::endl;
+		}
 	}
 	infile.close();
 	exitfile.close();
-	std::cout<<linear(123.654,456.987)<<std::endl;
+	std::cout<<"run linear"<<std::endl;
 	return 0;
 }
