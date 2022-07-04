@@ -3,14 +3,16 @@ CC = g++
 
 SRC = $(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
+CXXFLAGS = -std=c++17
 
-all: $(TARGET) run clean
+
+all: $(TARGET) 
 
 $(TARGET): $(OBJ)
-	        $(CC) $(OBJ) -o $(TARGET)
+	        $(CC) $(CXXFLAGS) $(OBJ) -o $(TARGET)
 
 %.o : %.cpp
-	        $(CC) -c $< -o $@
+	        $(CC) $(CXXFLAGS)  -c $< -o $@
 
 run:
 	        ./$(TARGET)
