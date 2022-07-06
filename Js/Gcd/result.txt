@@ -1,0 +1,13 @@
+12 = 12 test 1 passed 	 <3
+9 = 9 test 2 passed 	 <3
+23 != 2 test 3 failed 	 :(
+4 = 4 test 4 passed 	 <3
+45 = 45 test 5 passed 	 <3
+47 != 17 test 6 failed 	 :(
+13 = 13 test 7 passed 	 <3
+1 = 1 test 8 passed 	 <3
+1 = 1 test 9 passed 	 <3
+32 = 32 test 10 passed 	 <3
+
+
+Testing Result:  80%

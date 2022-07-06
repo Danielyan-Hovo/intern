@@ -1,24 +1,20 @@
 #include<iostream>
 #include<iomanip>
+#include <fstream>
+#include <string>
 using namespace std;
-int main()
-{
+
+void gaus(ifstream &input, ofstream &output){
+char var[] = {'x','y','z','p','q','m','n'};
     int n,i,j,k;
-    cout.precision(4);        
-    //set precision
-    cout.setf(ios::fixed);
-    cout<<"\nEnter the no. of equations\n";        
-    cin>>n;
-    //input the no. of equations
-    float a[n][n+1],x[n];        
-    //declare an array to store the elements of augmented-matrix    
-    cout<<"\nEnter the elements of the augmented-matrix row-wise:\n";
+	output.precision(4);
+ 	output.setf(ios::fixed);
+	input>>n;
+    float a[n][n+1],x[n];
     for (i=0;i<n;i++)
-        for (j=0;j<=n;j++)    
-            cin>>a[i][j];    
-            //input the elements of array
-    for (i=0;i<n;i++)                    
-    //Pivotisation
+        for (j=0;j<=n;j++)
+			input>>a[i][j];
+    for (i=0;i<n;i++)
         for (k=i+1;k<n;k++)
             if (abs(a[i][i])<abs(a[k][i]))
                 for (j=0;j<=n;j++)
@@ -27,48 +23,104 @@ int main()
                     a[i][j]=a[k][j];
                     a[k][j]=temp;
                 }
-    cout<<"\nThe matrix after Pivotisation is:\n";
-    for (i=0;i<n;i++)            
-    //print the new matrix
+    output<<"Matricy texapoxutyunneric heto\n";
+    for (i=0;i<n;i++)
     {
         for (j=0;j<=n;j++)
-            cout<<a[i][j]<<setw(16);
-        cout<<"\n";
-    }    
-    for (i=0;i<n-1;i++)            
-    //loop to perform the gauss elimination
+            output<<a[i][j]<<setw(16);
+        output<<"\n";
+    }
+    for (i=0;i<n-1;i++)
         for (k=i+1;k<n;k++)
             {
                 double t=a[k][i]/a[i][i];
                 for (j=0;j<=n;j++)
-                    a[k][j]=a[k][j]-t*a[i][j];    
-                    //make the elements below the pivot elements equal to zero or elimnate the variables
+                    a[k][j]=a[k][j]-t*a[i][j];
             }
-     
-    cout<<"\n\nThe matrix after gauss-elimination is as follows:\n";
-    for (i=0;i<n;i++)           
-     //print the new matrix
+
+    output<<"\n\nMatricy Gausyan tesqy tarakan gorcoxutyunneric heto:\n";
+    for (i=0;i<n;i++)
     {
         for (j=0;j<=n;j++)
-            cout<<a[i][j]<<setw(16);
-        cout<<"\n";
+            output<<a[i][j]<<setw(16);
+        output<<"\n";
     }
-    for (i=n-1;i>=0;i--)               
-     //back-substitution
-    {                        
-    //x is an array whose values correspond to the values of x,y,z..
-        x[i]=a[i][n];               
-         //make the variable to be calculated equal to the rhs of the last equation
+    for (i=n-1;i>=0;i--)
+    {
+        x[i]=a[i][n];
         for (j=i+1;j<n;j++)
-            if (j!=i)           
-             //then subtract all the lhs values except the coefficient of the variable whose value                                   is being calculated
+            if (j!=i)
                 x[i]=x[i]-a[i][j]*x[j];
-        x[i]=x[i]/a[i][i];            
-        //now finally divide the rhs by the coefficient of the variable to be calculated
+        x[i]=x[i]/a[i][i];
     }
-    cout<<"\nThe values of the variables are as follows:\n";
+    output<<"\nPopoxakanneri arjeqnern en:\n";
     for (i=0;i<n;i++)
-        cout<<x[i]<<endl;            
-        // Print the values of x, y,z,....    
+        output<<var[i]<<" = "<<x[i]<<endl;
+	output<<'~'<<endl;
+}
+
+void test_gaus(){
+	ifstream input;
+	ofstream output;
+	input.open("input.txt");
+	output.open("exit.txt");
+	gaus(input,output);
+	gaus(input,output);
+	input.close();
+	output.close();
+
+	
+	ofstream result;
+	ifstream exit;
+	exit.open("exit.txt");
+	ifstream golden;
+	golden.open("golden.txt");
+	result.open("result.txt");
+	
+	bool test = true;
+	string e,g;
+	exit>>e;
+	golden>>g;
+	while(e!="" && g!=""){
+		result<<e<<endl;
+	}	
+
+
+/*
+	bool test;
+	for(int i=1; i<3; i++){
+		if(e=="\0"){
+			result<<"EMPTY";
+			break;
+		}
+		if(e==""){
+			result<<"EMPTY???";
+			break;
+		}
+		test = true;
+		while(e!="~"){
+			if(e!=g){
+				result<<"Test "<<i<<" Failed !!!";
+				test = false;
+			}
+			exit>>e;
+			golden>>g;
+
+		}
+		if(!test)
+			continue;
+		
+	}
+*/	
+
+
+	exit.close();
+	golden.close();
+	result.close();
+}
+
+int main()
+{
+    test_gaus();
     return 0;
 }
