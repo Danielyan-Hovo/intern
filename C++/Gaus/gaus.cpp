@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-void gaus(ifstream &input, ofstream &output){
+void gaus(ifstream &input, ofstream &output, ofstream &exit){
 char var[] = {'x','y','z','p','q','m','n'};
     int n,i,j,k;
 	output.precision(4);
@@ -13,7 +13,7 @@ char var[] = {'x','y','z','p','q','m','n'};
     float a[n][n+1],x[n];
     for (i=0;i<n;i++)
         for (j=0;j<=n;j++)
-			input>>a[i][j];
+					input>>a[i][j];
     for (i=0;i<n;i++)
         for (k=i+1;k<n;k++)
             if (abs(a[i][i])<abs(a[k][i]))
@@ -54,65 +54,59 @@ char var[] = {'x','y','z','p','q','m','n'};
         x[i]=x[i]/a[i][i];
     }
     output<<"\nPopoxakanneri arjeqnern en:\n";
-    for (i=0;i<n;i++)
+    for (i=0;i<n;i++){
         output<<var[i]<<" = "<<x[i]<<endl;
+        exit<<var[i]<<" = "<<x[i]<<endl;
+    }
+  exit<<'~'<<endl;      
 	output<<'~'<<endl;
 }
 
 void test_gaus(){
 	ifstream input;
 	ofstream output;
+	ofstream exit;
 	input.open("input.txt");
-	output.open("exit.txt");
-	gaus(input,output);
-	gaus(input,output);
+	output.open("output.txt");
+	exit.open("exit.txt");
+	gaus(input,output,exit);
+	gaus(input,output,exit);
+	gaus(input, output, exit);
+	gaus(input, output, exit);
 	input.close();
 	output.close();
+	exit.close();
 
-	
 	ofstream result;
-	ifstream exit;
-	exit.open("exit.txt");
+	ifstream exit1;
+	exit1.open("exit.txt");
 	ifstream golden;
 	golden.open("golden.txt");
 	result.open("result.txt");
-	
+
 	bool test = true;
 	string e,g;
-	exit>>e;
-	golden>>g;
-	while(e!="" && g!=""){
-		result<<e<<endl;
-	}	
+	int i = 1;
 
-
-/*
-	bool test;
-	for(int i=1; i<3; i++){
-		if(e=="\0"){
-			result<<"EMPTY";
-			break;
+	string ee,gg;
+	while(getline(exit1,e) && getline(golden,g)){
+		ee = e;
+		gg = g;
+		if(gg!=ee){
+			result<<"Test "<<i<<" Failed!!!"<<endl;
+			test = false;
 		}
-		if(e==""){
-			result<<"EMPTY???";
-			break;
-		}
-		test = true;
-		while(e!="~"){
-			if(e!=g){
-				result<<"Test "<<i<<" Failed !!!";
-				test = false;
-			}
-			exit>>e;
-			golden>>g;
-
-		}
-		if(!test)
+		else if(gg==ee && test && gg=="~"){
+			result<<"Test "<<i<<" Passed <3"<<endl;
+			i++;
+			test = true;
 			continue;
-		
+		}
+		if(gg=="~"){
+			test = true;
+			i++;
+		}
 	}
-*/	
-
 
 	exit.close();
 	golden.close();

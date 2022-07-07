@@ -67,29 +67,39 @@ void findValues(float a[50][51], int maxIterations, float values_old[], int n){
 	print(iteration, values_new, n);
 }
 
-int main(){
-	int i,j,k,x,y,maxIterations,n;
-	float ratio;
-	cout<<"Enter no of Unknowns\n";
-	cin>>n;
-	cout<<"Enter no. of iterations\n";
-	cin>>maxIterations;
-	float a[50][51];
-	float values[50];;
+int jacobi(){
+		int i,j,k,x,y,maxIterations,n;
+		float ratio;
+		cout<<"Enter no of Unknowns\n";
+		cin>>n;
+		cout<<"Enter no. of iterations\n";
+		cin>>maxIterations;
+		float a[50][51];
+		float values[50];;
 
-	cout<<"Enter the Augmented Matrix\n";
-	for(int i=0;i<n;i++){
-		for(int j=0;j<n+1; j++)
-			cin>>a[i][j];
-	}
+		cout<<"Enter the Augmented Matrix\n";
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n+1; j++)
+				cin>>a[i][j];
+		}
 
-	if(!isMethodApplicable(a,n)){
-		cout<<"\nJacobi Method can`t be applied\n";
+		if(!isMethodApplicable(a,n)){
+			cout<<"\nJacobi Method can`t be applied\n";
+			return 0;
+		}
+		cout<<"\nJacobi Method is applicable\n\n";
+		for(int i=0; i<n; i++)
+			values[i]=0;
+		findValues(a, maxIterations,values, n);
 		return 0;
-	}
-	cout<<"\nJacobi Method is applicable\n\n";
-	for(int i=0; i<n; i++)
-		values[i]=0;
-	findValues(a, maxIterations,values, n);
-	return 0;
 }
+
+int test_jacobi(){
+
+
+
+}
+
+int main(){
+	jacobi();
+	}
