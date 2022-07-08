@@ -1,0 +1,63 @@
+" disable vi compatibility (emulation of old bugs)
+set nocompatible
+
+" commenting
+set comments=sl:/*,mb:\ *,elx:\ */
+set wildmode=longest:full
+set wildmenu
+set t_Co=256
+
+syntax on
+
+"tabs and spaces
+set shiftwidth=2	"1 tab == 2 spaces
+set tabstop=2		"<TAB> == 2 spaces
+set softtabstop=2	"<TAB> and backspace
+set smarttab		"smart tab
+set autoindent		"set auto indent
+set smartindent		"set smart indent
+set copyindent		"use exisiting indents for new indents
+set preserveindent	"save as much indent structure as possible
+
+"UI Config
+set number			"line number
+set showmatch		"highlight matching [({})]
+set mat=2			"for showmatch, set how many tenth of second it blinks
+set ruler			"show current position
+set magic			"magic for regular expression
+set confirm			"ask to save file
+set showcmd			"display incomplete command in the lower right corner of the console
+set undolevels=1000	"let vim allow 1000 undos
+set textwidth=80
+" do not work in hammer. Uncomment for those not on hammer server
+set colorcolumn=80
+highlight ColorColumn ctermbg=236
+
+"Searching
+set incsearch			   "search as char are entered
+set hlsearch			   "highlight matches
+set smartcase			   "smart with case search
+
+"Folding
+set foldenable	      "enable folds
+set foldlevelstart=10 "prevent too many folds
+set foldmethod=indent "set fold based on indentation
+"can also be marker, manual, expr, syntax, or diff
+"check :help for more information
+
+"Movement
+set mouse=a				     "mouse support in console (option + mouseclick for mac users)
+set mousehide				 "hide cursor when typing
+set scrolloff=5		         "minimum lines to keep above and below
+set ttymouse=xterm2
+
+"instant markdown
+filetype plugin on          "required
+
+"indenting
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=black ctermbg=black
+
+" statusline
+set laststatus=2

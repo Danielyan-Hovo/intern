@@ -94,11 +94,6 @@ int jacobi(){
 		return 0;
 }
 
-int test_jacobi(){
-
-
-
-}
 
 int main(){
 	jacobi();
