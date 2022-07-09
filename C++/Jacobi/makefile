@@ -1,10 +1,10 @@
-TARGET = gaus
+TARGET = jacobi
 CC = g++
-Input = input.txt
-Output = output.txt
+
 SRC = $(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
 CXXFLAGS = -std=c++17
+
 
 all: $(TARGET) 
 
@@ -15,7 +15,7 @@ $(TARGET): $(OBJ)
 	        $(CC) $(CXXFLAGS)  -c $< -o $@
 
 test:
-	        ./$(TARGET)<$(Input)>$(Output)
+	        ./$(TARGET)
 
 clean:
 	        rm $(TARGET) *.o
