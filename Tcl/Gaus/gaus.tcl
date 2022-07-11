@@ -3,20 +3,14 @@
 proc main {} {
 	set output [ open "exit.txt" w+]
 	set input [ open "input.txt" r]
-	set golden [ open "golden.txt" r]
-	set result [ open "result.txt" w+]
 
-
-	gaus $input $output 
+	gaus $input $output	
 
 	close $output
 	close $input
-	close $golden
-	close $result
-
 }
 
-proc gaus { input  output } {
+proc gaus { input output } {
 	set answer ""
 	while {[eof $input] !=1} {
 		lappend inputs [gets $input]
@@ -58,7 +52,7 @@ proc gaus { input  output } {
 		set x($i) [expr $x($i) / $matrix($i,$i)] 
 	}
 	for {set i 1} {$i<[expr $d +1]} {incr i} {
-		append answer "X$i = [format "%.3f" $x($i)]\t\t"
+		append answer "X$i = [format "%.3f" $x($i)]\t"
 	}
 	#append answer "\n"
 	puts $output $answer

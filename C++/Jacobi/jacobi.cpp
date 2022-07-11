@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+#include <iostrem>
+#include "jacobi.h"
+using namespace std;
+
+int main(){
+	jacobi();
+	return 0;
+}
+=======
 #include<iostream>
 #include <fstream>
 #include <string>
@@ -113,3 +123,4 @@ catch(const char* ex){
 catch(...){
         std::cerr << "exception()" << std::endl;
 }
+>>>>>>> 3e39d14a7c95285157463e42996aadd1beb28007
