@@ -1,0 +1,5 @@
+Test 1 passed succesfully
+Test 2 passed succesfully
+
+
+Tests Result: 100 %

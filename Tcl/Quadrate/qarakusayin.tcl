@@ -57,12 +57,9 @@ proc qarakusayin {a b c} {
 
 
 proc getInput {outputfile inputfile goldenfile resultsfile} {
-    #set outputfile [open "exitQarakusayin.txt" w+]
-    #set inputfile [open "inputQarakusayin.txt" r]
     while {[eof $inputfile ] !=1} {
 	lappend inputs [gets $inputfile]
     }  
-    #close $inputfile
     set length [llength $inputs]
     for {set i 0} {$i <[expr $length -1]} {incr i} {
 	set a [lindex $inputs $i 0]
@@ -71,13 +68,9 @@ proc getInput {outputfile inputfile goldenfile resultsfile} {
 	lappend results [qarakusayin $a $b $c]
 	puts $outputfile [qarakusayin $a $b $c]
     }
-    #close $outputfile
-    #set goldenfile [open "goldenQarakusayin.txt" r]
     while {[eof $goldenfile] != 1} {
 	lappend goldens [gets $goldenfile]
     }  
-    #close $goldenfile
-    #set resultsfile [open "resultsQarakusayin.txt" w+]
     set procent 100
     puts $resultsfile "Gold : $goldens"
     puts $resultsfile "Values : $results"
@@ -90,7 +83,6 @@ proc getInput {outputfile inputfile goldenfile resultsfile} {
     if {$procent>=50} {
 	    puts $resultsfile "\nTest passed Succesfully!\nTests Result: $procent %"
     }
-    #close $resultsfile
 }
 
 main

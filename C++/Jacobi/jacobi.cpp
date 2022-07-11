@@ -29,6 +29,7 @@ void jakobs(ifstream &input, ofstream &output){
 	float maxi = 0;
 	int iter = 0;
 	bool for_exit = true;
+
 	while (for_exit){
 		for (int i = 0; i < n; ++i){
                         curr[i] = mat[i][n];
