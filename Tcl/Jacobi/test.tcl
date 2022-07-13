@@ -12,12 +12,21 @@ proc test {} {
 	}
 	set length [llength $goldens]
 	set procent 100
+	set flag 1
+	set iter 0
 	for {set i 0} {$i< [expr $length -1]} {incr i} {
 		if {[lindex $exits $i] != [lindex $goldens $i]} {
-			set procent [expr $procent - 100 / $length]
-			puts $result "Error in [expr $i +1 ] !!!"
+			set procent [expr $procent - 100 / ($length-1)]
+			puts $result "Error in [expr $iter +1 ] !!!"
+			set flag 0
 		} else {
-			puts $result "Test [expr $i +1 ] passed succesfully"
+			if {[lindex $exits $i] == ""} {
+				if { $flag } {
+					puts $result "Test [expr $iter +1 ] passed succesfully"
+				}
+				incr iter
+				set flag 1
+			}
 		}
 	}
 	if {$procent >= 50} {

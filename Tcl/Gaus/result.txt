@@ -1,0 +1,6 @@
+Test 1 passed succesfully
+Error in 2 !!!
+Test 3 passed succesfully
+
+
+Tests Result: 67 %

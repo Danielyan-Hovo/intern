@@ -2,24 +2,28 @@
 
 proc main {} {
 	set output [ open "exit.txt" w+]
-	set input [ open "input.txt" r]
-
-	gaus $input $output	
+	close $output
+	set output [ open "exit.txt" a+]
+	set iter 0
+	gaus $output $iter
+	set iter 5
+	gaus $output $iter
+	set iter 8
+	gaus $output $iter
 
 	close $output
-	close $input
 }
 
-proc gaus { input output } {
-	set answer ""
+proc gaus { output iter } {
+	set input [open "input.txt" r]
 	while {[eof $input] !=1} {
 		lappend inputs [gets $input]
 	}
 	set length [llength $inputs]
-	set d [lindex $inputs 0 0]
+	set d [lindex $inputs $iter 0]
 	for {set i 1} {$i < [expr $d +1] } {incr i} {
 		for {set j 1} {$j < [expr $d +2]} {incr j} {
-			set matrix($i,$j) [lindex $inputs [expr $i] [expr $j -1]]
+			set matrix($i,$j) [lindex $inputs [expr $iter + $i] [expr $j - 1]]
 		}
  	}
 	for {set i 1} { $i<[expr $d+1]} {incr i} {
@@ -54,8 +58,8 @@ proc gaus { input output } {
 	for {set i 1} {$i<[expr $d +1]} {incr i} {
 		append answer "X$i = [format "%.3f" $x($i)]\t"
 	}
-	#append answer "\n"
 	puts $output $answer
+	close $input
 }
 
 

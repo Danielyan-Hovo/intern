@@ -14,7 +14,7 @@ proc test {} {
 	set procent 100
 	for {set i 0} {$i< [expr $length -1]} {incr i} {
 		if {[lindex $exits $i] != [lindex $goldens $i]} {
-			set procent [expr $procent - 100 / $length]
+			set procent [expr $procent - 100 / ($length-1)]
 			puts $result "Error in [expr $i +1 ] !!!"
 		} else {
 			puts $result "Test [expr $i +1 ] passed succesfully"

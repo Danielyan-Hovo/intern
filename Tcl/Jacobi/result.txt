@@ -1,9 +1,5 @@
 Test 1 passed succesfully
 Test 2 passed succesfully
-Test 3 passed succesfully
-Test 4 passed succesfully
-Test 5 passed succesfully
-Test 6 passed succesfully
 
 
 Tests Result: 100 %
