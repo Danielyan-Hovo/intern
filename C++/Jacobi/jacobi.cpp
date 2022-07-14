@@ -1,19 +1,8 @@
-<<<<<<< HEAD
-#include <iostrem>
-#include "jacobi.h"
-using namespace std;
-
-int main(){
-	jacobi();
-	return 0;
-}
-=======
 #include<iostream>
 #include <fstream>
 #include <string>
 using namespace std;
 
-const double epsilon = 1/(1000);
 
 /* ֆունկցիան input.txt ֆայլից ստանում է ներածվող տվյալները՝ փոփոխականների և
  * իտերացիաների քանակը,, առաջնահերթ ստուգում
@@ -23,7 +12,8 @@ const double epsilon = 1/(1000);
  * բոլոր արտածվող տվյալները տպվում են exit.txt ֆայլում։
  */
 void jakobs(ifstream &input, ofstream &output){
-      int n = 3;
+	float epsilon = 0.001;
+        int n = 3;
 	input >> n;
 	int mat[n][n+1];
 	float curr[n] = {0}; 
@@ -41,9 +31,9 @@ void jakobs(ifstream &input, ofstream &output){
 	bool for_exit = true;
 
 	while (for_exit){
-		for (int i = 0; i < n; ++i){
+		for (int i = 0; i < n; i++){
                         curr[i] = mat[i][n];
-                        for (int j = 0; j < n; ++j){
+                        for (int j = 0; j < n; j++){
                                 if (j != i) {
                                         curr[i] -= prev[j]*mat[i][j];
                                 }
@@ -54,8 +44,9 @@ void jakobs(ifstream &input, ofstream &output){
                         curr[i] /= mat[i][i];
                 }
 		iter++;
+		output<<"Iteration"<<iter<<"\t";
 		int count = 0;
-		for (int i = 0; i < n; ++i)    {
+		for (int i = 0; i < n; i++)    {
                         maxi = curr[i] - prev [i];
                         if (abs(maxi) <= epsilon){
                                 count++;
@@ -68,7 +59,7 @@ void jakobs(ifstream &input, ofstream &output){
 				output<<endl<<"Lucum chuni\n";	
 			}
                         prev[i] = curr[i];
-                        output<<prev[i]<<' ';
+                        output<<prev[i]<<'\t';
                 }
 		output<<endl;
 	}
@@ -123,4 +114,3 @@ catch(const char* ex){
 catch(...){
         std::cerr << "exception()" << std::endl;
 }
->>>>>>> 3e39d14a7c95285157463e42996aadd1beb28007
