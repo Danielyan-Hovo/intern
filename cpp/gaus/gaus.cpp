@@ -61,22 +61,26 @@ float* jacobi(Matrix &matrix){
         return x;
 }
 
-
-
-
-
-int main(){
-        float eps;
-	std::ifstream input("input.txt", std::ios::in);
+void test(){
+	float eps;
+        std::ofstream exit("exit.txt");
+        std::ifstream input("input.txt", std::ios::in);
+        std::ofstream result("result.txt");
+        std::ifstream golden("golden.txt");
         int a,b;
         int count=0;
-        while(!input.eof()){
-                input>>a>>b;
+        while(true){
+          	input>>a>>b;
+		if(input.eof())
+			break;
                 Matrix matrix(a,b);
                 input>>matrix;
                 std::cout<<"\n"<<matrix;
-                float* x = gaus(matrix);
-			float* y = jacobi(matrix);
+                float* x = new float[a];
+                for(int i=0;i<a;i++){
+                        golden>>x[i];
+                }
+                float* y = jacobi(matrix);
                 for(int i=0;i<a;i++){
                         std::cout<<"X"<<i+1<<" = "<<x[i]<<"\t\t";
                 }
@@ -86,22 +90,32 @@ int main(){
                         if(std::abs(x[i]-y[i])>eps)
                                 eps = std::abs(x[i]- y[i]);
                         if(eps>0.5){
-                                std::cout<<"There is no solution according to the Jacobi method\n";
+                                exit<<"There is no solution according to the Jacobi method";
                                 break;
                         } else{
-                                 std::cout<<"X"<<i+1<<" = "<<y[i]<<"\t\t";
+                                 exit<<"X"<<i+1<<" = "<<y[i]<<"\t\t";
                         }
                 }
+                exit<<std::endl;
                 count++;
-                if(eps == 0){
-                        std::cout<<"\nTest "<<count<<" accuracy is 100%\n";
+                if(eps < 0.000001){
+                        result<<"Test "<<count<<" accuracy is 100%\n";
                         continue;
-                }
-                if(eps<1){
-                        std::cout<<std::setprecision(10);
-                        std::cout<<"\nTest "<<count<<" accuracy is "<<eps<<"\n\n";
+                }else if(eps<1){
+                        result<<"Test "<<count<<" accuracy is "<<eps<<"\n";
+                } else {
+                        result<<"Test "<<count<<" There is no solution according to the Jacobi method\n";
                 }
         }
-	input.close();
+        result.close();
+        exit.close();
+        input.close();
+        golden.close();
+
+
+}
+
+int main(){
+	test();
 	return 0;
 }
