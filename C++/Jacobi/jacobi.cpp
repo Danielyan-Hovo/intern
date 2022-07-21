@@ -8,7 +8,7 @@ using namespace std;
  * իտերացիաների քանակը,, առաջնահերթ ստուգում
  * է արդյոք տվյալ գծային հավասարումների համակարգը հնարավոր է լուծել ըստ		Յակոբի
  * մեթոդի, հետո ամեն իտերացիայից հետո փոփոխականի արժեքները համեմատվում են նախորդ
- * իտերացիայի աչժեքների հետ և ստուգում որ փոքր լինի epsilion հաստատունից, 
+ * իտերացիայի աչժեքների հետ և ստուգում որ փոքր լինի epsilion հաստատունից,
  * բոլոր արտածվող տվյալները տպվում են exit.txt ֆայլում։
  */
 void jakobs(ifstream &input, ofstream &output){
@@ -16,13 +16,13 @@ void jakobs(ifstream &input, ofstream &output){
         int n = 3;
 	input >> n;
 	int mat[n][n+1];
-	float curr[n] = {0}; 
+	float curr[n] = {0};
 	float prev[n] = {0};
 	for (int i = 0;i < n; ++i){
                 for (int j = 0;j <= n; ++j){
                         input>>mat[i][j];
 			        output << mat[i][j] << ' ';
-			}               
+			}
                 output<<endl;
     }
 	output<<endl;
@@ -56,14 +56,14 @@ void jakobs(ifstream &input, ofstream &output){
 			}
 			else if(iter > 30){
 				for_exit = false;
-				output<<endl<<"Lucum chuni\n";	
+				output<<endl<<"Lucum chuni\n";
 			}
                         prev[i] = curr[i];
                         output<<prev[i]<<'\t';
                 }
 		output<<endl;
 	}
-}	
+}
 /*test ֆունկցիան բացում է exit.txt golden.txt result.txt ֆայլերը, որոնցից
  * առաջինում գտնուվում են մեր ստացած արդյունքները, իսկ երկրորդում թեստեր
  * պատասխանները, համեմատվում են արդյունքները և կախված թե ճիշտ են կատարված,
