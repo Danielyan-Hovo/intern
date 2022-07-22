@@ -2,9 +2,18 @@
 #include "gaus.h"
 #include <string>
 #include <regex>
+#include <ctype.h>
 
 const std::string inp = "../gaus/input.txt";
 const std::string gold = "../gaus/golden.txt";
+
+
+bool isNumber(std::string line){
+	char* p;
+	strtol(line.c_str(), &p, 10);
+	return *p == 0;
+}
+
 
 bool validate(std::string file){
         std::ifstream input(file);
@@ -23,32 +32,31 @@ bool validate(std::string file){
                 input.close();
                 return false;
         }
-        for (int lineNum = 1; getline(input, line);lineNum++){
+        while (getline(input, line)) {
             if (regex_search(line, m, p) && line.length()<6){
                 std::cout << std::endl;
                 if(std::stoi(m.str(1))+1 == std::stoi(m.str(2))){
                         int row = std::stoi(m.str(1));
                         int column = std::stoi(m.str(2));
                         iter = column*row;
-                        std::cout<<"\n"<<row<<"\t"<<column<<"\n";
                         while (iter--) {
                                 input>>temp;
-                                std::cout<<temp<<" ";
-                                if (!std::stoi(temp)) {
+                                if (!isNumber(temp)) {
+					std::cerr<<"\nMatrix item not a Number\n";
                                         input.close();
                                         return false;
                                 }
-                                std::cout<<"\n";
                         }
                 } else {
+			std::cerr << "Matrix dimensions are incorrect!"<< std::endl;
                         input.close();
                         return false;
                 }
             }
             else if (regex_search(line,c,l)) {
-                std::cerr << "There's an invalid entry not Number!" << std::endl;
-                //input.close();
-                //return false;
+                std::cerr << "Matrix size an invalid entry not Number!"<< std::endl;
+                input.close();
+                return false;
             }
         }
         input.close();
@@ -78,8 +86,7 @@ void test()
                         exit<<"X"<<i+1<<" = "<<x[i]<<"\t";
                         golden>>y[i];
                         if (std::abs(x[i]-y[i])>0.001) {
-                                std::cout<<x[i]<<"\t"<<y[i]<<std::endl;
-                                result<<"Test "<<count<<" Failed! your result: "<<x[i]<<"  expected result: "<<y[1]<<"\n";
+                                result<<"Test "<<count<<" Failed! your result: X"<<i+1<<"="<<x[i]<<"  expected result: X"<<i+1<<"="<<y[1]<<"\n";
                                 break;
                         } else if (i == (a-1) && x[i] == y[i]) {
                                 result<<"Test "<<count<<" Passed Succsesfully\n";
@@ -95,7 +102,8 @@ void test()
 
 int main()
 {
-	//test();
-        std::cout<<std::endl<<validate(inp)<<std::endl;
+        if(validate(inp)){
+		test();
+	}
 	return 0;
 }

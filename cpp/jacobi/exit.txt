@@ -1,0 +1,5 @@
+There is no solution according to the Jacobi method
+X1 = 0.426565		X2 = 0.641466		X3 = 0.0176463		
+X1 = -4.27872		X2 = 19.8612		X3 = 0.194787		X4 = -0.719191		
+There is no solution according to the Jacobi method
+X1 = 4		X2 = 2		X3 = 11		X4 = -5		
