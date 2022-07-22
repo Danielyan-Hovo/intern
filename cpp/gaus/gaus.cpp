@@ -2,11 +2,13 @@
 #include "gaus.h"
 #include <string>
 #include <regex>
-#include <ctype.h>
 
 const std::string inp = "../gaus/input.txt";
 const std::string gold = "../gaus/golden.txt";
 
+
+//The isNumber function is used to validate the input
+//file and checks that the input value is a number.
 
 bool isNumber(std::string line){
 	char* p;
@@ -15,21 +17,34 @@ bool isNumber(std::string line){
 }
 
 
+
+//The validate function checks the validation of input data.
+//This function can generate 5 errors as a result of its operation.
+//1. when the file does not exist
+//2. when the file is empty
+//3. when the matrix size given in the file is incorrect
+//4. when the size of the matrix is ​​not numbers
+//5. when the matrix values ​​are not numbers.
+//The function throws generated errors into the exit.txt file and returns a 
+//boolean value depending on whether the input file is valid or not.
+
 bool validate(std::string file){
         std::ifstream input(file);
-        std::string line;
+        std::ofstream exit("exit.txt");
+        std::string line, temp;
         std::regex p("([0-9]{1}) ([0-9]{1})");
         std::smatch m;
         std::regex l("(\\w+)");
         std::smatch c;
-        std::string temp;
         int iter;
         if(!input.good()) {
-                input.close();
+                exit<<"Input file is absent!\n";
+                input.close(); exit.close();
                 return false;
         }
         if (input.peek() == std::ifstream::traits_type::eof()){
-                input.close();
+                exit<<"Input file is Empty!\n";
+                input.close(); exit.close();
                 return false;
         }
         while (getline(input, line)) {
@@ -42,26 +57,34 @@ bool validate(std::string file){
                         while (iter--) {
                                 input>>temp;
                                 if (!isNumber(temp)) {
-					std::cerr<<"\nMatrix item not a Number\n";
-                                        input.close();
+					exit<<"Matrix item not a Number\n";
+                                        input.close(); exit.close();
                                         return false;
                                 }
                         }
                 } else {
-			std::cerr << "Matrix dimensions are incorrect!"<< std::endl;
-                        input.close();
+			exit << "Matrix dimensions are incorrect!"<< std::endl;
+                        input.close(); exit.close();
                         return false;
                 }
             }
             else if (regex_search(line,c,l)) {
-                std::cerr << "Matrix size an invalid entry not Number!"<< std::endl;
-                input.close();
+                exit << "Matrix size an invalid entry not Number!"<< std::endl;
+                exit.close(); input.close();
                 return false;
             }
         }
-        input.close();
+        input.close(); exit.close();
         return true;
 }
+
+
+//The test function calls the gaus function from the gaus.h file for the values
+//input from the input.txt file, whose returned values ​​are compared first
+//with the exact values ​​of the golden.txt file, it checks which tests worked
+//correctly, and if they worked incorrectly, it indicates that the value is wrong
+//and what the value should have been, then the results are placed in result.txt
+//file, after performing the checks, the compared values ​​are placed in the exit.txt file
 
 void test()
 {
@@ -69,8 +92,7 @@ void test()
         std::ifstream golden(gold);
         std::ofstream exit("exit.txt");
         std::ofstream result("result.txt");
-        int a,b;
-        int count = 0;
+        int a,b, count = 0;
         while (!input.eof()) {
                 input>>a>>b;
                 if (input.eof()) {
@@ -92,13 +114,16 @@ void test()
                                 result<<"Test "<<count<<" Passed Succsesfully\n";
                         }
                 }
-
         }
         input.close();
         golden.close();
         exit.close();
         result.close();
 }
+
+
+//in the main function, the condition of the validity of the 
+//input file is checked and the test function is called for it.
 
 int main()
 {

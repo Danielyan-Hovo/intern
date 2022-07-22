@@ -1,5 +1,0 @@
-Test 1 There is no solution according to the Jacobi method
-Test 2 accuracy is 100%
-Test 3 accuracy is 0.000150681
-Test 4 There is no solution according to the Jacobi method
-Test 5 accuracy is 100%
