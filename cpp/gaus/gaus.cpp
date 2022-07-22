@@ -1,121 +1,101 @@
 #include "../matrix.hpp"
-#include <iomanip>
+#include "gaus.h"
+#include <string>
+#include <regex>
 
+const std::string inp = "../gaus/input.txt";
+const std::string gold = "../gaus/golden.txt";
 
-float* gaus(Matrix &matrix){
-	float** a = matrix.diagonal();
-	int n = matrix.row;
-	float* x= new float[10];
+bool validate(std::string file){
+        std::ifstream input(file);
+        std::string line;
+        std::regex p("([0-9]{1}) ([0-9]{1})");
+        std::smatch m;
+        std::regex l("(\\w+)");
+        std::smatch c;
+        std::string temp;
+        int iter;
+        if(!input.good()) {
+                input.close();
+                return false;
+        }
+        if (input.peek() == std::ifstream::traits_type::eof()){
+                input.close();
+                return false;
+        }
+        for (int lineNum = 1; getline(input, line);lineNum++){
+            if (regex_search(line, m, p) && line.length()<6){
+                std::cout << std::endl;
+                if(std::stoi(m.str(1))+1 == std::stoi(m.str(2))){
+                        int row = std::stoi(m.str(1));
+                        int column = std::stoi(m.str(2));
+                        iter = column*row;
+                        std::cout<<"\n"<<row<<"\t"<<column<<"\n";
+                        while (iter--) {
+                                input>>temp;
+                                std::cout<<temp<<" ";
+                                if (!std::stoi(temp)) {
+                                        input.close();
+                                        return false;
+                                }
+                                std::cout<<"\n";
+                        }
+                } else {
+                        input.close();
+                        return false;
+                }
+            }
+            else if (regex_search(line,c,l)) {
+                std::cerr << "There's an invalid entry not Number!" << std::endl;
+                //input.close();
+                //return false;
+            }
+        }
+        input.close();
+        return true;
+}
 
-	for (int i=n-1;i>=0;i--){
-        	x[i]=a[i][n];
-        	for (int j=i+1;j<n;j++)
-            		if (j!=i)
-                		x[i]=x[i]-a[i][j]*x[j];
-                if(a[i][i] == 0){
-                        x[i] = 0;
+void test()
+{
+        std::ifstream input(inp);
+        std::ifstream golden(gold);
+        std::ofstream exit("exit.txt");
+        std::ofstream result("result.txt");
+        int a,b;
+        int count = 0;
+        while (!input.eof()) {
+                input>>a>>b;
+                if (input.eof()) {
                         break;
                 }
-        	x[i]=x[i]/a[i][i];
-	}
-        return x;
-}
-
-float* jacobi(Matrix &matrix){
-        float** mat = matrix.copy_matrix();
-	int n = matrix.row;
-        float curr[n] = {0};
-        float* x = new float[10];
-        float prev[n] = {0};
-	float maxi = 0;
-        int iter = 0;
-        bool for_exit = true;
-        bool flag = false;
-	int count =100;
-        while (count--){
-                for (int i = 0; i < n; i++){
-                        curr[i] = mat[i][n];
-                        for (int j = 0; j < n; j++){
-                                if (j != i) {
-                                        curr[i] -= prev[j]*mat[i][j];
-                                }
-                                else {
-                                        continue;
-                                }
-                        }
-                        curr[i] /= mat[i][i];
-                }
-                iter++;
-                for (int i = 0; i < n; i++)    {
-                        maxi = curr[i] - prev [i];
-                        prev[i] = curr[i];
-                }
-        }
-	for(int i=0;i<n;i++){
-                if(flag){
-                        x[i] = 0;
-                } else{
-                        x[i] = prev[i];
-                }
-	}
-        return x;
-}
-
-void test(){
-	float eps;
-        std::ofstream exit("exit.txt");
-        std::ifstream input("input.txt", std::ios::in);
-        std::ofstream result("result.txt");
-        std::ifstream golden("golden.txt");
-        int a,b;
-        int count=0;
-        while(true){
-          	input>>a>>b;
-		if(input.eof())
-			break;
                 Matrix matrix(a,b);
                 input>>matrix;
-                std::cout<<"\n"<<matrix;
-                float* x = new float[a];
-                for(int i=0;i<a;i++){
-                        golden>>x[i];
-                }
-                float* y = jacobi(matrix);
-                for(int i=0;i<a;i++){
-                        std::cout<<"X"<<i+1<<" = "<<x[i]<<"\t\t";
-                }
-                std::cout<<"\n";
-                eps = std::abs(x[0]-y[0]);
-                for(int i=0;i<a;i++){
-                        if(std::abs(x[i]-y[i])>eps)
-                                eps = std::abs(x[i]- y[i]);
-                        if(eps>0.5){
-                                exit<<"There is no solution according to the Jacobi method";
+                float* x = gaus(matrix);
+                float* y = new float[a];
+                count++;
+                exit<<std::endl;
+                for (int i = 0;i<a;i++) {
+                        exit<<"X"<<i+1<<" = "<<x[i]<<"\t";
+                        golden>>y[i];
+                        if (std::abs(x[i]-y[i])>0.001) {
+                                std::cout<<x[i]<<"\t"<<y[i]<<std::endl;
+                                result<<"Test "<<count<<" Failed! your result: "<<x[i]<<"  expected result: "<<y[1]<<"\n";
                                 break;
-                        } else{
-                                 exit<<"X"<<i+1<<" = "<<y[i]<<"\t\t";
+                        } else if (i == (a-1) && x[i] == y[i]) {
+                                result<<"Test "<<count<<" Passed Succsesfully\n";
                         }
                 }
-                exit<<std::endl;
-                count++;
-                if(eps < 0.000001){
-                        result<<"Test "<<count<<" accuracy is 100%\n";
-                        continue;
-                }else if(eps<1){
-                        result<<"Test "<<count<<" accuracy is "<<eps<<"\n";
-                } else {
-                        result<<"Test "<<count<<" There is no solution according to the Jacobi method\n";
-                }
+
         }
-        result.close();
-        exit.close();
         input.close();
         golden.close();
-
-
+        exit.close();
+        result.close();
 }
 
-int main(){
-	test();
+int main()
+{
+	//test();
+        std::cout<<std::endl<<validate(inp)<<std::endl;
 	return 0;
 }

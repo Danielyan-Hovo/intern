@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <fstream>
-//using namespace std;
 
-class Matrix{
+class Matrix
+{
 public:
     int row;
     int column;
@@ -21,8 +21,6 @@ public:
     float** diagonal();
     void allocate();
     float operator()( int i, int j );
-    
-    
     friend std::istream& operator>> (std::istream&, const Matrix&);
     friend std::ostream& operator<< (std::ostream&, const Matrix&);
 

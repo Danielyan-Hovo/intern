@@ -1,37 +1,34 @@
-float* jacobi(Matrix &matrix){
-        float** mat = matrix.copy_matrix();
-        int n = matrix.row;
-        float curr[n] = {0};
+float* jacobi(Matrix &matrix)
+{
+        float curr[matrix.row] = {0};
         float* x = new float[10];
-        float prev[n] = {0};
+        float prev[matrix.row] = {0};
         float maxi = 0;
         int iter = 0;
-        bool for_exit = true;
         bool flag = false;
         int count =100;
         while (count--){
-                for (int i = 0; i < n; i++){
-                        curr[i] = mat[i][n];
-                        for (int j = 0; j < n; j++){
+                for (int i = 0; i < matrix.row; i++) {
+                        curr[i] = matrix(i,matrix.row);
+                        for (int j = 0; j < matrix.row; j++) {
                                 if (j != i) {
-                                        curr[i] -= prev[j]*mat[i][j];
-                                }
-                                else {
+                                        curr[i] -= prev[j]*matrix(i,j);
+                                } else {
                                         continue;
                                 }
                         }
-                        curr[i] /= mat[i][i];
+                        curr[i] /= matrix(i,i);
                 }
                 iter++;
-                for (int i = 0; i < n; i++)    {
+                for (int i = 0; i < matrix.row; i++)    {
                         maxi = curr[i] - prev [i];
                         prev[i] = curr[i];
                 }
         }
-        for(int i=0;i<n;i++){
-                if(flag){
+        for (int i=0;i<matrix.row;i++) {
+                if (flag) {
                         x[i] = 0;
-                } else{
+                } else {
                         x[i] = prev[i];
                 }
         }
