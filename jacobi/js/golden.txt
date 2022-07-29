@@ -1,0 +1,11 @@
+0.42657	0.64147	0.01765
+-2.81429	0.60528	0.37471	0.07137
+-0.30303	-0.36364
+Matrix can't  applicable for Jacobi method!
+Matrix can't  applicable for Jacobi method!
+4	2	11	-5
+-6.9557	2.62644	0.95919
+0.17908	0.79366	-0.58106
+3.79592	0.4898
+2.45454	2.18182
+Matrix can't  applicable for Jacobi method!

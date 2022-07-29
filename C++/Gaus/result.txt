@@ -1,3 +1,0 @@
-Test 1 passed succesfully
-Test 2 Failed !!!
-Test 3 passed succesfully

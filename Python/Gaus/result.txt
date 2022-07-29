@@ -1,7 +1,0 @@
-Test 1 passed succesfully
-Test 2 passed succesfully
-Test 3 passed succesfully
-Test 4 passed succesfully
-
-
- Tests results: 100%
